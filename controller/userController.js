@@ -1,10 +1,10 @@
-import userService from '../repository/userRepository.js';
+import userService from "../service/userService.js";
 
 const getAllUser = async (req, res) => {
     try{
-        const users = await userService.getAllUser();
-        if(users.rowCount > 0){
-            res.status(200).send(users.rows);
+        const users = await userService.getAllUsers();
+        if(users.length > 0){
+            res.status(200).send(users);
         }
         else{
             res.status(404).send("No student found");

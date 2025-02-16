@@ -1,6 +1,7 @@
 import pkg from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import dotenv from 'dotenv';
+import process from 'node:process';
 
 const { Pool } = pkg;
 

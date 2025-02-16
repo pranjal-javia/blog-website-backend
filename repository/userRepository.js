@@ -1,14 +1,10 @@
-import query from "../config/dbConnection.js";
+import db from "../database/dbConnection.js";
+import { user } from '../drizzle/schema.js';
 
-const getAllUser = async () => {
+const getAllUsers = async () => {
     try{
-        const query_statement = `SELECT * FROM "Users"`;
-        const users = await query(query_statement);
+        const users = await db.select().from(user);
         return users;
-        // const name = "Reyes";
-        // const query_statement = `SELECT * FROM "Users" WHERE username=$1`; 
-        // const users = await query(query_statement, [name]);
-        // return users;
     }
     catch(err){
         console.log(err);
@@ -16,4 +12,4 @@ const getAllUser = async () => {
     }
 }
 
-export default {getAllUser};
+export default {getAllUsers};
