@@ -7,7 +7,7 @@ const getAllUser = async (req, res) => {
             res.status(200).send(users);
         }
         else{
-            res.status(404).send("No student found");
+            res.status(404).send("No user found");
         }
     }
     catch(err){
