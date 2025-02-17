@@ -21,8 +21,4 @@ pool.on('connect', () => {
 
 const db = drizzle({ client: pool });
 
-// const query = (q, params = []) => {
-//     return pool.query(q, params)
-// }
-
 export default db;
