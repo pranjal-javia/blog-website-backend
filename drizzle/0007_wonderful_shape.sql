@@ -1,0 +1,1 @@
+ALTER TABLE "reaction" RENAME COLUMN "Id" TO "id";

@@ -1,0 +1,1 @@
+ALTER TABLE "user" ALTER COLUMN "jwt_token" SET DATA TYPE text;

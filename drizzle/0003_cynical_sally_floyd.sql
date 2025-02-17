@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "pincode" varchar(10) NOT NULL;
