@@ -25,7 +25,7 @@ const getAllBlogs = async () => {
 // get specific blog
 const getBlog = async ({ id }) => {
   try {
-    const blog_data = await db.select().from(blog).where(eq(blog.id, id));
+    const blog_data = await db.select().from(blog).where(and(eq(blog.id, id), eq(blog.is_deleted, false)));
     return blog_data;
   } catch (err) {
     console.log(err);
