@@ -51,6 +51,7 @@ const createComment = async (req, res) => {
 // update comment
 const updateComment = async (req, res) => {
     try{
+        req.body["id"] = req.params.id;
         const rowsAffected = await commentService.updateComment(req.body);
         if(rowsAffected.rowCount > 0){
             res.status(204).send();

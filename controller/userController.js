@@ -1,7 +1,6 @@
 import userService from "../service/userService.js";
 import {
   user_zod_schema,
-  email_validation_zod,
   update_user_zod_schema
 } from "../validation/userValidations.js";
 
@@ -19,24 +18,31 @@ const getAllUser = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  try {
-    const isEmail = email_validation_zod.safeParse({ email: req.body.data });
-    if (isEmail.success) {
-      const user = await userService.getUserByEmail(req.body);
-      if (!user) {
-        res.status(404).send("User not found");
-      }
-      res.status(200).send(user);
-    } else if (req.body.data.length > 0) {
-      const user = await userService.getUserByUsername(req.body);
-      if (!user) {
-        res.status(404).send("User not found");
-      }
-      res.status(200).send(user);
-    } else {
-      res.status(400).send("Invalid input");
-    }
-  } catch (err) {
+  // try {
+  //   const isEmail = email_validation_zod.safeParse({ email: req.body.data });
+  //   if (isEmail.success) {
+  //     const user = await userService.getUserByEmail(req.body);
+  //     if (!user) {
+  //       res.status(404).send("User not found");
+  //     }
+  //     res.status(200).send(user);
+  //   } else if (req.body.data.length > 0) {
+  //     const user = await userService.getUserByUsername(req.body);
+  //     if (!user) {
+  //       res.status(404).send("User not found");
+  //     }
+  //     res.status(200).send(user);
+  //   } else {
+  //     res.status(400).send("Invalid input");
+  //   }
+  // } catch (err) {
+  //   res.status(err.status || 500).send(err.message || "Internal Server Error");
+  // }
+  try{
+    const user = await userService.getUser(req.params.id);
+    res.status(200).send(user);
+  }
+  catch(err){
     res.status(err.status || 500).send(err.message || "Internal Server Error");
   }
 };
@@ -62,6 +68,7 @@ const updateUser = async (req, res) => {
     if (!validation.success) {
       return res.status(400).json({ error: validation.error.format() });
     }
+    req.body["id"] = req.params.id;
     const rowsAffected = await userService.updateUser(req.body);
     if(rowsAffected.rowCount > 0){
         res.status(204).send();
@@ -79,7 +86,8 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try{
-    const rowsAffected = await userService.deleteUser(req.body);
+    console.log(req.params.id)
+    const rowsAffected = await userService.deleteUser(req.params.id);
     if(rowsAffected > 0){
       res.status(204).send();
     }
@@ -91,4 +99,5 @@ const deleteUser = async (req, res) => {
     res.status(err?.status || 500).send(err?.message || "Internal server error");
   }
 }
+
 export default { getAllUser, createUser, getUser, updateUser, deleteUser };

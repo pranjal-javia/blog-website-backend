@@ -1,6 +1,6 @@
-import { eq, sql, and } from "drizzle-orm";
+import { eq, sql, and, count } from "drizzle-orm";
 import db from "../database/dbConnection.js";
-import { user } from "../drizzle/schema.js";
+import { user, blog, comment, reaction } from "../drizzle/schema.js";
 
 const getAllUsers = async () => {
   try {
@@ -29,10 +29,42 @@ const getUserByUsername = async (username) => {
 // get user by email
 const getUserByEmail = async (email) => {
   try {
+    
     const user_data = await db
       .select()
       .from(user)
-      .where(and(eq(user.email, email.data), eq(user.is_active, true)));
+      .where(and(eq(user.email, email), eq(user.is_active, true)));
+    return user_data;
+  } catch (err) {
+    console.log(err);
+    throw { status: 500, message: "Internal server error" };
+  }
+};
+
+// get user by id
+const getUser = async (id) => {
+  try {
+    const result = await db.select().from(user).where(eq(user.id, id));
+
+    const blogs = await db
+      .select({
+        ...blog,
+        comment_count: count(comment.id),
+        reaction_count: count(reaction.id)
+      })
+      .from(blog)
+      .leftJoin(
+        comment,
+        and(eq(comment.blog_id, blog.id), eq(comment.is_deleted, false))
+      )
+      .leftJoin(
+        reaction,
+        and(eq(reaction.blog_id, blog.id), eq(reaction.liked, true))
+      )
+      .where(and(eq(blog.user_id, id), eq(blog.is_deleted, false)))
+      .groupBy(blog.id, comment.id, reaction.id);
+
+    const user_data = { ...result[0], blogs: blogs };
     return user_data;
   } catch (err) {
     console.log(err);
@@ -80,7 +112,7 @@ const updateUser = async (updatedUser) => {
   }
 };
 
-const deleteUser = async ({id}) => {
+const deleteUser = async (id) => {
   try {
     const rowsAffected = await db
       .update(user)
@@ -101,4 +133,5 @@ export default {
   createUser,
   updateUser,
   deleteUser,
+  getUser,
 };

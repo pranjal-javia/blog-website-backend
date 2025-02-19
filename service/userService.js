@@ -7,6 +7,11 @@ const getAllUsers = async () => {
   return users;
 };
 
+const getUser = async (id) => {
+  const user = await userRepository.getUser(id);
+  return user;
+}
+
 const createUser = async (user) => {
   const { password } = user;
   const salt = await bcrypt.genSalt(5);
@@ -33,6 +38,7 @@ const updateUser = async (user) => {
 };
 
 const deleteUser = async (id) => {
+  console.log(id)
   const rowsAffected = await userRepository.deleteUser(id);
   return rowsAffected;
 }
@@ -43,5 +49,6 @@ export default {
   getUserByEmail,
   getUserByUsername,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUser
 };

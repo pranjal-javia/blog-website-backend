@@ -1,13 +1,18 @@
 import blogRepository from "../repository/blogRepository.js";
 import { v4 as uuidv4 } from "uuid";
 
-const getAllBlogs = async() => {
-    const blogs = await blogRepository.getAllBlogs();
+const getAllBlogs = async(pageData) => {
+    const blogs = await blogRepository.getAllBlogs(pageData);
     return blogs;
 }
 
-const getBlog = async (data) => {
-    const blog = await blogRepository.getBlog(data);
+const getAllBlogCounts = async () => {
+    const result = await blogRepository.getAllBlogCounts();
+    return result[0].count;
+}
+
+const getBlog = async (id) => {
+    const blog = await blogRepository.getBlog(id);
     return blog;
 }
 
@@ -37,5 +42,6 @@ export default {
     getUserBlogs,
     deleteBlog,
     updateBlog,
-    createBlog
+    createBlog,
+    getAllBlogCounts
 }

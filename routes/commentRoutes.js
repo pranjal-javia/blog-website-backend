@@ -4,18 +4,18 @@ import commentController from '../controller/commentController.js';
 const router = express.Router();
 
 // get all comments for specific user
-router.post("/", commentController.getUserAllComments);
+// router.post("/", commentController.getUserAllComments);
 
 // get all comments for specific blog
-router.post("/blog-comments", commentController.getBlogComments);
+// router.post("/blog-comments", commentController.getBlogComments);
 
 // create comment
-router.post("/create", commentController.createComment);
+router.post("/", commentController.createComment);
 
 // update comment
-router.patch("/update", commentController.updateComment);
+router.patch("/:id", commentController.updateComment);
 
 // delete comment
-router.delete("/delete", commentController.deleteComment);
+router.post("/:id/delete", commentController.deleteComment);
 
 export default router;

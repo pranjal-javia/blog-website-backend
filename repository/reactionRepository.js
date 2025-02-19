@@ -4,7 +4,7 @@ import { eq, and, count } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 // get user list of whoever liked particular blog
-const getAllReactionLikes = async ({ blog_id }) => {
+const getAllReactionLikes = async ({ blog_id }) => {  // not required
   try {
     const likes = await db
       .select()
@@ -19,7 +19,7 @@ const getAllReactionLikes = async ({ blog_id }) => {
 };
 
 // get user list of whoever disliked particular blog
-const getAllReactionDislikes = async ({ blog_id }) => {
+const getAllReactionDislikes = async ({ blog_id }) => {  // not required
   try {
     const dislikes = await db
       .select()
@@ -35,7 +35,7 @@ const getAllReactionDislikes = async ({ blog_id }) => {
 };
 
 // get all reaction count for particular blog
-const getAllReactionCounts = async ({ blog_id }) => {
+const getAllReactionCounts = async ({ blog_id }) => {  // not required
   try {
     const likes_count_result = await db
       .select({ count: count() })
@@ -58,7 +58,7 @@ const getAllReactionCounts = async ({ blog_id }) => {
 };
 
 // update reaction
-const updateReaction = async ({ b_id, u_id, liked }) => {
+const updateReaction = async ({ b_id, u_id, liked }) => {  
   try {
     const isRecordFound = await db
       .select()

@@ -3,7 +3,7 @@ import { comment, user, blog } from "../drizzle/schema.js";
 import { eq, and, sql } from "drizzle-orm";
 
 // to get specific user's all comments
-const getUserAllComments = async ({ id }) => {
+const getUserAllComments = async ({ id }) => { // not required
   try {
     const comments = await db
       .select()
@@ -26,7 +26,7 @@ const getUserAllComments = async ({ id }) => {
 };
 
 // to get particular blog's all comment
-const getBlogComments = async ({ blog_id }) => {
+const getBlogComments = async ({ blog_id }) => { // not required
   try {
     const comments = await db
       .select()
